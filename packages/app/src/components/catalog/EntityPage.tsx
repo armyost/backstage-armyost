@@ -50,6 +50,10 @@ import {
   RELATION_PROVIDES_API,
 } from '@backstage/catalog-model';
 
+// Custom relation types
+const RELATION_FEATURE_OF = 'featureOf';
+const RELATION_HAS_FEATURE = 'hasFeature';
+
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
 
@@ -132,7 +136,7 @@ const overviewContent = (
       <EntityAboutCard variant="gridItem" />
     </Grid>
     <Grid item md={6} xs={12}>
-      <EntityCatalogGraphCard variant="gridItem" renderNode={CustomRenderNode} height={400} />
+      <EntityCatalogGraphCard variant="gridItem" renderNode={CustomRenderNode} height={400} kinds={["component", "system", "api", "resource"]} relationTypes={["featureOf","hasFeature"]}/>
     </Grid>
 
     <Grid item md={4} xs={12}>
@@ -363,6 +367,7 @@ const systemPage = (
         direction={Direction.TOP_BOTTOM}
         title="System Diagram"
         height={700}
+        kinds={["component", "api", "system", "resource"]}
         relations={[
           RELATION_PART_OF,
           RELATION_HAS_PART,
@@ -372,6 +377,8 @@ const systemPage = (
           RELATION_PROVIDES_API,
           RELATION_DEPENDENCY_OF,
           RELATION_DEPENDS_ON,
+          RELATION_FEATURE_OF,
+          RELATION_HAS_FEATURE,
         ]}
         unidirectional={false}
       />
@@ -388,12 +395,49 @@ const domainPage = (
           <EntityAboutCard variant="gridItem" />
         </Grid>
         <Grid item md={6} xs={12}>
-          <EntityCatalogGraphCard variant="gridItem" renderNode={CustomRenderNode} height={400} />
+          <EntityCatalogGraphCard variant="gridItem" renderNode={CustomRenderNode} height={400} kinds={["component", "system", "api", "resource"]} />
         </Grid>
         <Grid item md={6}>
           <EntityHasSystemsCard variant="gridItem" />
         </Grid>
       </Grid>
+    </EntityLayout.Route>
+  </EntityLayout>
+);
+
+const resourcePage = (
+  <EntityLayout>
+    <EntityLayout.Route path="/" title="Overview">
+      <Grid container spacing={3}>
+        {entityWarningContent}
+        <Grid item md={6}>
+          <EntityAboutCard />
+        </Grid>
+        <Grid item md={6} xs={12}>
+          <EntityLinksCard />
+        </Grid>
+      </Grid>
+    </EntityLayout.Route>
+    
+    <EntityLayout.Route path="/relations" title="Relations">
+      <EntityCatalogGraphCard 
+        variant="gridItem" 
+        renderNode={CustomRenderNode} 
+        height={600}
+        kinds={["component", "api", "system", "resource"]}
+        relations={[
+          RELATION_PART_OF,
+          RELATION_HAS_PART,
+          RELATION_API_CONSUMED_BY,
+          RELATION_API_PROVIDED_BY,
+          RELATION_CONSUMES_API,
+          RELATION_PROVIDES_API,
+          RELATION_DEPENDENCY_OF,
+          RELATION_DEPENDS_ON,
+          RELATION_FEATURE_OF,
+          RELATION_HAS_FEATURE,
+        ]}
+      />
     </EntityLayout.Route>
   </EntityLayout>
 );
@@ -406,6 +450,7 @@ export const entityPage = (
     <EntitySwitch.Case if={isKind('user')} children={userPage} />
     <EntitySwitch.Case if={isKind('system')} children={systemPage} />
     <EntitySwitch.Case if={isKind('domain')} children={domainPage} />
+    <EntitySwitch.Case if={isKind('resource')} children={resourcePage} />
 
     <EntitySwitch.Case>{defaultEntityPage}</EntitySwitch.Case>
   </EntitySwitch>

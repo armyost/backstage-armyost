@@ -8,7 +8,6 @@ import {
   configApiRef,
   createApiFactory,
 } from '@backstage/core-plugin-api';
-
 import {
   ALL_RELATIONS,
   ALL_RELATION_PAIRS,
@@ -18,27 +17,27 @@ import {
 
 export const apis: AnyApiFactory[] = [
   createApiFactory({
-  //   api: scmIntegrationsApiRef,
-  //   deps: { configApi: configApiRef },
-  //   factory: ({ configApi }) => ScmIntegrationsApi.fromConfig(configApi),
-  // }),
-  // ScmAuth.createDefaultApiFactory(),
+    api: scmIntegrationsApiRef,
+    deps: { configApi: configApiRef },
+    factory: ({ configApi }) => ScmIntegrationsApi.fromConfig(configApi),
+  }),
+  ScmAuth.createDefaultApiFactory(),
+  createApiFactory({
     api: catalogGraphApiRef,
     deps: {},
     factory: () =>
       new DefaultCatalogGraphApi({
         // The relations to support
-        knownRelations: [...ALL_RELATIONS, 'myRelationOf', 'myRelationFor'],
+        knownRelations: [...ALL_RELATIONS, 'featureOf', 'hasFeature'],
         // The relation pairs to support
         knownRelationPairs: [
           ...ALL_RELATION_PAIRS,
-          ['myRelationOf', 'myRelationFor'],
+          ['featureOf', 'hasFeature'],
         ],
-        // Select what relations to be shown by default, either by including them,
-        // or excluding some from all known relations:
+        // Select what relations to be shown by default
         defaultRelationTypes: {
-          // Don't show/select these by default
-          exclude: ['myRelationOf', 'myRelationFor'],
+          // Don't exclude any custom relations - show them by default
+          exclude: [],
         },
       }),
   }),

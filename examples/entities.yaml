@@ -5,29 +5,31 @@ kind: System
 metadata:
   name: examples
 spec:
-  owner: guests
+  owner: admin
 ---
 # https://backstage.io/docs/features/software-catalog/descriptor-format#kind-component
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
   name: example-website
+  namespace: default
 spec:
   type: website
   lifecycle: experimental
-  owner: guests
+  owner: admin
   system: examples
-  providesApis: [example-grpc-api]
+  hasFeature: [resource:default/user-authentication]
 ---
-# https://backstage.io/docs/features/software-catalog/descriptor-format#kind-api
+
 apiVersion: backstage.io/v1alpha1
 kind: API
 metadata:
   name: example-grpc-api
+  namespace: default
 spec:
   type: grpc
   lifecycle: experimental
-  owner: guests
+  owner: admin
   system: examples
   definition: |
     syntax = "proto3";
@@ -39,3 +41,29 @@ spec:
     message ExampleMessage {
       string example = 1;
     };
+---
+# Feature entity - Custom entity kind
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: user-authentication
+  namespace: default
+spec:
+  type: feature
+  lifecycle: production
+  owner: admin
+  system: examples
+  featureOf: [component:default/example-website]
+
+
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: artists-db
+  description: Stores artist details
+spec:
+  type: database
+  owner: admin
+  system: examples
