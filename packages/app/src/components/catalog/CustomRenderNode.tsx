@@ -3,7 +3,7 @@ import { DependencyGraphTypes } from '@backstage/core-components';
 import { makeStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(_theme => ({
   node: {
     stroke: '#000',
     strokeWidth: 2,
