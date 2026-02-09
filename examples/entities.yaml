@@ -97,3 +97,13 @@ spec:
   downstreamOf:
     - api:default/example-grpc-api
 
+---
+apiVersion: internal.company.com/v1
+kind: BusinessProcess  # Entirely new Kind
+metadata:
+  name: customer-onboarding
+spec:
+  owner: admin
+  steps: 
+    - verify-id
+    - credit-check
