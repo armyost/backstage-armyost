@@ -28,16 +28,18 @@ export const apis: AnyApiFactory[] = [
     factory: () =>
       new DefaultCatalogGraphApi({
         // The relations to support
-        knownRelations: [...ALL_RELATIONS, 'featureOf', 'hasFeature'],
+        knownRelations: [...ALL_RELATIONS, 'featureOf', 'hasFeature','upstreamOf','downstreamOf', 'upstreamBy','downstreamBy'],
         // The relation pairs to support
         knownRelationPairs: [
           ...ALL_RELATION_PAIRS,
           ['featureOf', 'hasFeature'],
+          ['upstreamOf', 'upstreamBy'],
+          ['downstreamOf', 'downstreamBy'],
         ],
         // Select what relations to be shown by default
         defaultRelationTypes: {
           // Don't exclude any custom relations - show them by default
-          exclude: [],
+          exclude: ['providesApi', 'consumesApi','apiConsumedBy','apiProvidedBy'],
         },
       }),
   }),
