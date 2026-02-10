@@ -30,7 +30,7 @@ export class CustomRelationProcessor implements CatalogProcessor {
           },
           type: 'hasFeature',
           target: {
-            kind: targetRef.split(':')[0] || 'Resource',
+            kind: targetRef.split(':')[0] || 'Feature',
             namespace: targetRef.split('/')[0].split(':')[1] || 'default',
             name: targetRef.split('/')[1] || targetRef,
           },
@@ -107,7 +107,7 @@ export class CustomRelationProcessor implements CatalogProcessor {
           },
           type: 'upstreamBy',
           target: {
-            kind: targetRef.split(':')[0] || 'Resource',
+            kind: targetRef.split(':')[0] || 'Feature',
             namespace: targetRef.split('/')[0].split(':')[1] || 'default',
             name: targetRef.split('/')[1] || targetRef,
           },
@@ -157,7 +157,7 @@ export class CustomRelationProcessor implements CatalogProcessor {
           },
           type: 'downstreamBy',
           target: {
-            kind: targetRef.split(':')[0] || 'Resource',
+            kind: targetRef.split(':')[0] || 'Feature',
             namespace: targetRef.split('/')[0].split(':')[1] || 'default',
             name: targetRef.split('/')[1] || targetRef,
           },

@@ -20,7 +20,7 @@ spec:
   owner: admin
   system: examples
   hasFeature:
-    - resource:default/user-authentication
+    - feature:default/user-authentication
   providesApis:
     - api:default/example-grpc-api
 ---
@@ -38,7 +38,7 @@ spec:
   owner: admin
   system: examples
   hasFeature:
-    - resource:default/user-registration
+    - feature:default/user-registration
   consumesApis:
     - api:default/example-grpc-api
 ---
@@ -52,9 +52,9 @@ spec:
   lifecycle: experimental
   owner: admin
   upstreamBy:
-    - resource:default/user-authentication
+    - feature:default/user-authentication
   downstreamBy:
-    - resource:default/user-registration
+    - feature:default/user-registration
   definition: |
     syntax = "proto3";
 
@@ -68,12 +68,13 @@ spec:
 ---
 # Feature entity - Custom entity kind
 apiVersion: backstage.io/v1alpha1
-kind: Resource
+kind: Feature
 metadata:
   name: user-authentication
   namespace: default
+  description: User authentication feature with OAuth2 and JWT support
 spec:
-  type: feature
+  type: capability
   lifecycle: production
   owner: admin
   featureOf:
@@ -84,12 +85,13 @@ spec:
 ---
 # Feature entity - Custom entity kind
 apiVersion: backstage.io/v1alpha1
-kind: Resource
+kind: Feature
 metadata:
   name: user-registration
   namespace: default
+  description: User registration feature with email verification
 spec:
-  type: feature
+  type: capability
   lifecycle: production
   owner: admin
   featureOf:
@@ -97,13 +99,26 @@ spec:
   downstreamOf:
     - api:default/example-grpc-api
 
----
-apiVersion: internal.company.com/v1
-kind: BusinessProcess  # Entirely new Kind
+--- 
+apiVersion: backstage.io/v1alpha1
+kind: Resource 
 metadata:
-  name: customer-onboarding
+  name: example-database
+  namespace: default
 spec:
+  type: database
   owner: admin
-  steps: 
-    - verify-id
-    - credit-check
+  dependsOn:
+    - component:default/micro-service-a
+  
+--- 
+apiVersion: backstage.io/v1alpha1
+kind: Resource 
+metadata:
+  name: example-database
+  namespace: default
+spec:
+  type: database
+  owner: admin
+  dependsOn:
+    - component:default/micro-service-b

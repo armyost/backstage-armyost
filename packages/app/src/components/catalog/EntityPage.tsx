@@ -136,7 +136,7 @@ const overviewContent = (
       <EntityAboutCard variant="gridItem" />
     </Grid>
     <Grid item md={6} xs={12}>
-      <EntityCatalogGraphCard variant="gridItem" renderNode={CustomRenderNode} height={400} kinds={["component", "api", "resource"]}/>
+      <EntityCatalogGraphCard variant="gridItem" renderNode={CustomRenderNode} height={400} kinds={["component", "api", "resource", "feature"]}/>
     </Grid>
 
     <Grid item md={4} xs={12}>
@@ -395,7 +395,7 @@ const domainPage = (
           <EntityAboutCard variant="gridItem" />
         </Grid>
         <Grid item md={6} xs={12}>
-          <EntityCatalogGraphCard variant="gridItem" renderNode={CustomRenderNode} height={400} kinds={["component", "system", "api", "resource"]} />
+          <EntityCatalogGraphCard variant="gridItem" renderNode={CustomRenderNode} height={400} kinds={["component", "system", "api", "resource", "feature"]} />
         </Grid>
         <Grid item md={6}>
           <EntityHasSystemsCard variant="gridItem" />

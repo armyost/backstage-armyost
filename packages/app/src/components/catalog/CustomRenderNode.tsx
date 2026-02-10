@@ -46,6 +46,10 @@ const useStyles = makeStyles(_theme => ({
       fill: '#FFCCBC',
       stroke: '#FF6E40',
     },
+    '&.feature': {
+      fill: '#CE93D8',
+      stroke: '#AB47BC',
+    },
     '&.template': {
       fill: '#B2DFDB',
       stroke: '#009688',

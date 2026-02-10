@@ -41,6 +41,9 @@ backend.add(import('@backstage/plugin-catalog-backend-module-logs'));
 // custom catalog relation processor
 backend.add(import('./plugins/catalogModuleCustomRelationProcessor'));
 
+// custom Feature entity kind
+backend.add(import('./plugins/catalogModuleFeatureEntityKind'));
+
 // permission plugin
 backend.add(import('@backstage/plugin-permission-backend'));
 // See https://backstage.io/docs/permissions/getting-started for how to create your own permission policy
