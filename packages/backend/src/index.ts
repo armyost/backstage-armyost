@@ -69,6 +69,9 @@ backend.add(import('@backstage/plugin-kubernetes-backend'));
 backend.add(import('@backstage/plugin-notifications-backend'));
 backend.add(import('@backstage/plugin-signals-backend'));
 
+// AiKA backend plugin (proxy for third-party AI provider)
+backend.add(import('./plugins/aikaBackend'));
+
 backend.add(import('@backstage/plugin-auth-backend-module-github-provider'));
 
 backend.start();
