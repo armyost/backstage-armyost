@@ -39,7 +39,7 @@ import {
   Direction,
   EntityCatalogGraphCard,
 } from '@backstage/plugin-catalog-graph';
-import {
+import { Entity,
   RELATION_API_CONSUMED_BY,
   RELATION_API_PROVIDED_BY,
   RELATION_CONSUMES_API,
@@ -49,19 +49,18 @@ import {
   RELATION_PART_OF,
   RELATION_PROVIDES_API,
 } from '@backstage/catalog-model';
-
-// Custom relation types
-const RELATION_FEATURE_OF = 'featureOf';
-const RELATION_HAS_FEATURE = 'hasFeature';
-
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
-
 import {
   EntityKubernetesContent,
   isKubernetesAvailable,
 } from '@backstage/plugin-kubernetes';
+import { EntityDORAAtAGlance, EntityDORACharts } from '@liatrio/backstage-dora-plugin';
 import { CustomRenderNode } from './CustomRenderNode';
+
+// Custom relation types
+const RELATION_FEATURE_OF = 'featureOf';
+const RELATION_HAS_FEATURE = 'hasFeature';
 
 const techdocsContent = (
   <EntityTechdocsContent>
@@ -129,6 +128,15 @@ const entityWarningContent = (
   </>
 );
 
+const doraContent = (
+  <Grid container spacing={3} alignItems="stretch">
+    {entityWarningContent}
+    <Grid item xs={12}>
+      <EntityDORACharts showServiceSelection={false} />
+    </Grid>
+  </Grid>
+);
+
 const overviewContent = (
   <Grid container spacing={3} alignItems="stretch">
     {entityWarningContent}
@@ -136,14 +144,21 @@ const overviewContent = (
       <EntityAboutCard variant="gridItem" />
     </Grid>
     <Grid item md={6} xs={12}>
-      <EntityCatalogGraphCard variant="gridItem" renderNode={CustomRenderNode} height={400} kinds={["component", "api", "resource", "feature"]}/>
+      <EntityCatalogGraphCard
+        variant="gridItem"
+        renderNode={CustomRenderNode}
+        height={400}
+        kinds={["component", "api", "resource", "feature"]}
+      />
     </Grid>
-
     <Grid item md={4} xs={12}>
       <EntityLinksCard />
     </Grid>
     <Grid item md={8} xs={12}>
       <EntityHasSubcomponentsCard variant="gridItem" />
+    </Grid>
+    <Grid item md={6} xs={12}>
+      <EntityDORAAtAGlance />
     </Grid>
   </Grid>
 );
@@ -164,6 +179,10 @@ const serviceEntityPage = (
       if={isKubernetesAvailable}
     >
       <EntityKubernetesContent />
+    </EntityLayout.Route>
+
+    <EntityLayout.Route path="/dora" title="DORA">
+      {doraContent}
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/api" title="API">
@@ -212,6 +231,10 @@ const websiteEntityPage = (
       <EntityKubernetesContent />
     </EntityLayout.Route>
 
+    <EntityLayout.Route path="/dora" title="DORA">
+      {doraContent}
+    </EntityLayout.Route>
+
     <EntityLayout.Route path="/dependencies" title="Dependencies">
       <Grid container spacing={3} alignItems="stretch">
         <Grid item md={6}>
@@ -240,6 +263,10 @@ const defaultEntityPage = (
   <EntityLayout>
     <EntityLayout.Route path="/" title="Overview">
       {overviewContent}
+    </EntityLayout.Route>
+
+    <EntityLayout.Route path="/dora" title="DORA">
+      {doraContent}
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/docs" title="Docs">
@@ -271,7 +298,11 @@ const apiPage = (
           <EntityAboutCard />
         </Grid>
         <Grid item md={6} xs={12}>
-          <EntityCatalogGraphCard variant="gridItem" renderNode={CustomRenderNode} height={400} />
+          <EntityCatalogGraphCard
+            variant="gridItem"
+            renderNode={CustomRenderNode}
+            height={400}
+          />
         </Grid>
         <Grid item md={4} xs={12}>
           <EntityLinksCard />
@@ -344,7 +375,11 @@ const systemPage = (
           <EntityAboutCard variant="gridItem" />
         </Grid>
         <Grid item md={6} xs={12}>
-          <EntityCatalogGraphCard variant="gridItem" renderNode={CustomRenderNode} height={400} />
+          <EntityCatalogGraphCard
+            variant="gridItem"
+            renderNode={CustomRenderNode}
+            height={400}
+          />
         </Grid>
         <Grid item md={4} xs={12}>
           <EntityLinksCard />
@@ -376,9 +411,7 @@ const systemPage = (
           RELATION_CONSUMES_API,
           RELATION_PROVIDES_API,
           RELATION_DEPENDENCY_OF,
-          RELATION_DEPENDS_ON,
-          RELATION_FEATURE_OF,
-          RELATION_HAS_FEATURE,
+          RELATION_DEPENDS_ON
         ]}
         unidirectional={false}
       />
@@ -395,7 +428,12 @@ const domainPage = (
           <EntityAboutCard variant="gridItem" />
         </Grid>
         <Grid item md={6} xs={12}>
-          <EntityCatalogGraphCard variant="gridItem" renderNode={CustomRenderNode} height={400} kinds={["component", "system", "api", "resource", "feature"]} />
+          <EntityCatalogGraphCard
+            variant="gridItem"
+            renderNode={CustomRenderNode}
+            height={400}
+            kinds={["component", "system", "api", "resource", "feature"]}
+          />
         </Grid>
         <Grid item md={6}>
           <EntityHasSystemsCard variant="gridItem" />
@@ -433,9 +471,7 @@ const resourcePage = (
           RELATION_CONSUMES_API,
           RELATION_PROVIDES_API,
           RELATION_DEPENDENCY_OF,
-          RELATION_DEPENDS_ON,
-          RELATION_FEATURE_OF,
-          RELATION_HAS_FEATURE,
+          RELATION_DEPENDS_ON
         ]}
       />
     </EntityLayout.Route>

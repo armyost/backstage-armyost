@@ -122,3 +122,66 @@ spec:
   owner: admin
   dependsOn:
     - component:default/micro-service-b
+
+
+---
+# https://backstage.io/docs/features/software-catalog/descriptor-format#kind-component
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: micro-service-prod-a
+  namespace: default
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+spec:
+  type: website
+  lifecycle: production
+  owner: admin
+  system: examples
+  hasFeature:
+    - feature:default/user-authentication
+  providesApis:
+    - api:default/example-grpc-api
+---
+# https://backstage.io/docs/features/software-catalog/descriptor-format#kind-component
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: micro-service-prod-b
+  namespace: default
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+spec:
+  type: website
+  lifecycle: production
+  owner: admin
+  system: examples
+  hasFeature:
+    - feature:default/user-registration
+  consumesApis:
+    - api:default/example-grpc-api
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: example-grpc-prod-api
+  namespace: default
+spec:
+  type: grpc
+  lifecycle: production
+  owner: admin
+  upstreamBy:
+    - feature:default/user-authentication
+  downstreamBy:
+    - feature:default/user-registration
+  definition: |
+    syntax = "proto3";
+
+    service Exampler {
+      rpc Example (ExampleMessage) returns (ExampleMessage) {};
+    }
+
+    message ExampleMessage {
+      string example = 1;
+    };
+---

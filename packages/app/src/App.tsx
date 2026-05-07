@@ -32,10 +32,10 @@ import {
 } from '@backstage/core-components';
 import { createApp } from '@backstage/app-defaults';
 import { AppRouter, FlatRoutes } from '@backstage/core-app-api';
-import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 import { RequirePermission } from '@backstage/plugin-permission-react';
 import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
 import { NotificationsPage } from '@backstage/plugin-notifications';
+import { CustomCatalogGraphPage } from './components/catalog/CustomCatalogGraphPage';
 import { SignalsDisplay } from '@backstage/plugin-signals';
 import { githubAuthApiRef } from '@backstage/core-plugin-api';
 import { SignInProviderConfig, SignInPage } from '@backstage/core-components';
@@ -43,7 +43,6 @@ import { SignInProviderConfig, SignInPage } from '@backstage/core-components';
 import { UnifiedThemeProvider, themes, } from '@backstage/theme'; // MUI themes
 import LightIcon from  '@material-ui/icons/WbSunny'; // Additional icons
 import { multicolorTheme } from './theme/theme'; // Custom multicolor theme
-import { CustomRenderNode } from './components/catalog/CustomRenderNode'; // Custom catalog graph renderer
 
 const githubProvider: SignInProviderConfig = {
   id: 'github-auth-provider',
@@ -141,7 +140,7 @@ const routes = (
       {searchPage}
     </Route>
     <Route path="/settings" element={<UserSettingsPage />} />
-    <Route path="/catalog-graph" element={<CatalogGraphPage renderNode={CustomRenderNode} />} />
+    <Route path="/catalog-graph" element={<CustomCatalogGraphPage />} />
     <Route path="/notifications" element={<NotificationsPage />} />
     <Route path="/aika" element={<AikaPage />} />
   </FlatRoutes>
